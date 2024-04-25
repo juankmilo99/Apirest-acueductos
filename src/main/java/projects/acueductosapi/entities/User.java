@@ -20,16 +20,16 @@ public class User {
     private Integer id;
 
     @Size(max = 100)
-    @Column(name = "username", length = 100)
+    @Column(name = "username", length = 100, unique = true)
     private String username;
 
     @Size(max = 100)
-    @Column(name = "direccion", length = 100)
-    private String direccion;
+    @Column(name = "address", length = 100)
+    private String address;
 
     @Size(max = 100)
-    @Column(name = "ciudad", length = 100)
-    private String ciudad;
+    @Column(name = "city", length = 100)
+    private String city;
 
     @Size(max = 100)
     @Column(name = "email", length = 100)
@@ -51,5 +51,17 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @Size(max = 150)
+    @Column(name = "cellphone", length = 150)
+    private String cellphone;
+
+    @Size(max = 150)
+    @Column(name = "first_name", length = 150)
+    private String firstName;
+
+    @Size(max = 150)
+    @Column(name = "last_name", length = 150)
+    private String lastName;
 
 }

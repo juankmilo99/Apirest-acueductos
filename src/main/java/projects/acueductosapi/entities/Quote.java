@@ -22,10 +22,6 @@ public class Quote {
     @Column(name = "quote_id", nullable = false)
     private Integer id;
 
-
-    @JoinColumn(name = "user_id")
-    private Integer user_id;
-
     @Size(max = 100)
     @Column(name = "name", length = 100)
     private String name;
@@ -37,8 +33,8 @@ public class Quote {
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
-    @Column(name = "price", precision = 10, scale = 2)
-    private BigDecimal price;
+   @Column(name = "cellphone", length = 100)
+    private String cellphone;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp

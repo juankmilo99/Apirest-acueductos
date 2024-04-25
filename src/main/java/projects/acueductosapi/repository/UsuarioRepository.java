@@ -4,4 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import projects.acueductosapi.entities.User;
 
 public interface UsuarioRepository extends JpaRepository<User, Integer> {
+    User findByUsername(String username);
+    User findByEmail(String email);
+
 }

@@ -15,6 +15,10 @@ import java.time.Instant;
 @Entity
 @Table(name = "products")
 public class Product {
+
+    @Transient
+    private String imageBase64;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", nullable = false)
@@ -30,6 +34,12 @@ public class Product {
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(name = "image")
+    private byte[] image;
+
+    @Column(name = "stock")
+    private Integer stock;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     @CreationTimestamp
@@ -39,5 +49,9 @@ public class Product {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+
+    @Column(name = "id_category", nullable = false)
+    private Integer id_category;
 
 }

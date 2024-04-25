@@ -43,12 +43,11 @@ public class ConfigSecurity {
                     .requestMatchers(HttpMethod.PUT, "/productos/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/productos/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "/usuarios/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.PUT, "/usuarios/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/quotes").hasRole("ADMIN")
-                    .requestMatchers("/usuarios","/orders","/quotes","/usuarios/**","/authenticate","/productos/**","/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
+                    .requestMatchers("/usuarios/**","/questions/**","/reviews/**","/blogs/**","/categories","/orders/**","/orders/cart/**","/quotes","/usuarios/**","/authenticate","/productos/**","/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
         })
 
                      .addFilterBefore(jwtReqFilter, UsernamePasswordAuthenticationFilter.class)

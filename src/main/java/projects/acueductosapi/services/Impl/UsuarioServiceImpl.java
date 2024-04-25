@@ -49,6 +49,30 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         return new ResponseEntity<UsuarioResponseRest>(response, HttpStatus.OK); //devuelve 200
     }
+    @Override
+    @Transactional(readOnly = true)
+    public ResponseEntity<UsuarioResponseRest> buscarPorUsername(String username) {
+        UsuarioResponseRest response = new UsuarioResponseRest();
+        List<User> list = new ArrayList<>();
+
+        try {
+            User user = usuarioRepository.findByUsername(username);
+            if (user != null) {
+                list.add(user);
+                response.getUserResponse().setUsers(list);
+                response.setMetadata("Respuesta ok", "200", "Respuesta exitosa");
+            } else {
+                response.setMetadata("Respuesta nok", "-1", "Usuario no encontrado");
+                return new ResponseEntity<UsuarioResponseRest>(response, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            response.setMetadata("Respuesta nok", "-1", "Error al consultar usuario");
+            log.error("error al consultar usuario: ", e.getMessage());
+            e.getStackTrace();
+            return new ResponseEntity<UsuarioResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<UsuarioResponseRest>(response, HttpStatus.OK); //devuelve 200
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -86,6 +110,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         UsuarioResponseRest response = new UsuarioResponseRest();
         List<User> list = new ArrayList<>();
+
+        // Verificar si ya existe un usuario con el mismo nombre de usuario
+         User existingUser = usuarioRepository.findByUsername(user.getUsername());
+        if (existingUser != null) {
+            response.setMetadata("Respuesta nok", "-1", "Ya existe un usuario con el mismo nombre de usuario");
+            return new ResponseEntity<UsuarioResponseRest>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        // Verificar si ya existe un usuario con el mismo correo electrónico
+        User existingUserWithEmail = usuarioRepository.findByEmail(user.getEmail());
+        if (existingUserWithEmail != null) {
+            response.setMetadata("Respuesta nok", "-1", "Ya existe un usuario con el mismo correo electrónico");
+            return new ResponseEntity<UsuarioResponseRest>(response, HttpStatus.BAD_REQUEST);
+        }
 
         try {
             // Encriptar la contraseña antes de guardarla
@@ -149,11 +187,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
             if (UsuarioBuscado.isPresent()) {
                 UsuarioBuscado.get().setUsername(user.getUsername());
-                UsuarioBuscado.get().setDireccion(user.getDireccion());
-                UsuarioBuscado.get().setCiudad(user.getCiudad());
+                UsuarioBuscado.get().setAddress(user.getAddress());
+                UsuarioBuscado.get().setCity(user.getCity());
                 UsuarioBuscado.get().setEmail(user.getEmail());
                 UsuarioBuscado.get().setPassword(user.getPassword());
                 UsuarioBuscado.get().setEnabled(user.getEnabled());
+                UsuarioBuscado.get().setCellphone(user.getCellphone());
+                UsuarioBuscado.get().setFirstName(user.getFirstName());
+                UsuarioBuscado.get().setLastName(user.getLastName());
+
 
                 User UsuarioActualizar = usuarioRepository.save(UsuarioBuscado.get()); //actualizando
 

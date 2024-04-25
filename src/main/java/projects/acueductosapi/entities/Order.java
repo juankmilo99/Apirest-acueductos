@@ -1,6 +1,9 @@
 package projects.acueductosapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,11 +12,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "orders")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +29,14 @@ public class Order {
     @Column(name = "user_id")
     private Integer user_id;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
-    @Column(name = "product_id")
-    private Integer product_id;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items;
 
     @Column(name = "total_price", precision = 10, scale = 2)
-    private BigDecimal total_price;
+    private BigDecimal totalPrice = BigDecimal.ZERO;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp

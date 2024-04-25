@@ -77,14 +77,14 @@ public class QuoteServiceImpl implements QuoteService {
             log.error("Error en grabar Quote ");
             response.setMetadata("Respuesta nok", "-1", "Error al grabar Quote");
             return new ResponseEntity<QuoteResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        }/*
         try {
             // Enviar correo electrónico con la información de la cotización
             enviarCorreo(quote.getEmail(), quote.getDescription(), quote.getPrice());
         } catch (MessagingException e) {
             // Manejo de errores si falla el envío del correo electrónico
             log.error("Error al enviar correo electrónico: " + e.getMessage());
-        }
+        }*/
 
         response.setMetadata("Respuesta ok", "00", "Quote creado");
         return new ResponseEntity<QuoteResponseRest>(response, HttpStatus.OK); //devuelve 200

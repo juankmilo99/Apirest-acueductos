@@ -10,6 +10,9 @@ public interface UsuarioService {
     public ResponseEntity<UsuarioResponseRest> buscarUsers();
 
 
+
+    public ResponseEntity<UsuarioResponseRest> buscarPorUsername(String username);
+
     public ResponseEntity<UsuarioResponseRest> buscarPorId(Integer id);
 
 
